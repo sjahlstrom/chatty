@@ -1,7 +1,9 @@
 import express, { Express } from 'express'
-import { SocialServer } from './setupServer'
-import databaseConnection from './setupDatabase'
-import { config } from './config'
+
+import databaseConnection from '@root/setupDatabase'
+
+import {SocialServer} from "@root/setupServer";
+import {config} from "@root/config";
 
 class Application {
   public initialize(): void {

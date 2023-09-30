@@ -17,13 +17,14 @@ import { Server } from 'socket.io'
 import { createClient } from 'redis'
 import { createAdapter } from '@socket.io/redis-adapter'
 import 'express-async-errors'
-import { config } from './config'
 import Logger from 'bunyan'
-import routes from './routes'
+
 import {
   CustomError,
   IErrorResponse,
-} from './shared/global/helpers/errorHandler'
+} from "@global/helpers/errorHandler"
+import routes from "@root/routes";
+import {config} from "@root/config";
 
 const SERVER_PORT = 5001
 const SEVEN_DAYS = 24 * 7 * 3600000
@@ -130,5 +131,7 @@ export class SocialServer {
       log.info(`Server running on port ${SERVER_PORT}`)
     })
   }
-  private socketIOConnections(io: Server): void {}
+  private socketIOConnections(io: Server): void {
+     log.info('socketIOConnections')
+  }
 }

@@ -91,9 +91,13 @@ web_modules/
 .next
 out
 
+../.idea/vcs.xml
+
+
 # Nuxt.js build / generate output
 .nuxt
 dist
+build
 
 # Gatsby files
 .cache/

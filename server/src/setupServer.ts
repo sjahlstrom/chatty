@@ -1,10 +1,10 @@
 import {
   Application,
   json,
-  urlencoded,
-  Response,
-  Request,
   NextFunction,
+  Request,
+  Response,
+  urlencoded,
 } from 'express'
 import http from 'http'
 import cors from 'cors'
@@ -19,14 +19,11 @@ import { createAdapter } from '@socket.io/redis-adapter'
 import 'express-async-errors'
 import Logger from 'bunyan'
 
-import {
-  CustomError,
-  IErrorResponse,
-} from "@global/helpers/errorHandler"
-import routes from "@root/routes";
-import {config} from "@root/config";
+import { CustomError, IErrorResponse } from '@global/helpers/error-handler'
+import routes from '@root/routes'
+import { config } from '@root/config'
 
-const SERVER_PORT = 5001
+const SERVER_PORT = 5050
 const SEVEN_DAYS = 24 * 7 * 3600000
 
 const log: Logger = config.createLogger('setupServer')
@@ -56,7 +53,10 @@ export class SocialServer {
       })
     )
     app.use(hpp())
-    app.use(helmet())
+    //app.use(helmet()) todo: -sja- this allows bulldashboard to load but this only treats the symptom, not the cause
+    app.use(helmet({ contentSecurityPolicy: false }))
+    ////////////////////////////
+
     app.use(
       cors({
         origin: config.CLIENT_URL,
@@ -132,6 +132,6 @@ export class SocialServer {
     })
   }
   private socketIOConnections(io: Server): void {
-     log.info('socketIOConnections')
+    log.info('socketIOConnections')
   }
 }

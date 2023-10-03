@@ -3,16 +3,33 @@ Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
-
 {
    "username": "test",
    "password": "test",
    "email": "test@test.com",
    "avatarColor": "red",
-   "avatarImage": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
+   "avatarImage": "data:image/png;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs="
 }
 
 ###
+
+POST http://localhost:5050/api/v1/signin
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+###
+
+GET http://localhost:5050/api/v1/signout
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
 
 
 

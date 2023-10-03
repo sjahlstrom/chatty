@@ -109,7 +109,7 @@ export class SocialServer {
       this.startHttpServer(httpServer)
       this.socketIOConnections(socketIO)
     } catch (error) {
-      log.error(error)
+      log.error('Cannot start servers', error)
     }
   }
   private async createSocketIO(httpServer: http.Server): Promise<Server> {
@@ -126,12 +126,12 @@ export class SocialServer {
     return io
   }
   private startHttpServer(httpServer: http.Server): void {
-    log.info(`Server has started with process ${process.pid}`)
+    log.info(`httpServer started with process ${process.pid}`)
     httpServer.listen(SERVER_PORT, () => {
-      log.info(`Server running on port ${SERVER_PORT}`)
+      log.info(`httpServer running on port ${SERVER_PORT}`)
     })
   }
   private socketIOConnections(io: Server): void {
-    log.info('socketIOConnections')
+    log.info('socketIOConnections established')
   }
 }

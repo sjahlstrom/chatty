@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
 import { Request, Response } from 'express'
-
 import { joiValidation } from '@global/decorators/joi-validaion-decorators'
 import { signupSchema } from '@auth/schemes/signup'
 import { IAuthDocument, ISignUpData } from '@auth/interfaces/auth.interface'
@@ -15,6 +14,7 @@ import { authQueue } from '@service/queues/auth.queue'
 import { userQueue } from '@service/queues/user.queue'
 import { config } from '@root/config'
 import { BadRequestError } from '@global/helpers/error-handler'
+import {authService} from "@service/db/auth.service";
 
 const userCache: UserCache = new UserCache()
 
@@ -22,14 +22,15 @@ export class SignUp {
    @joiValidation(signupSchema)
    public async create(req: Request, res: Response): Promise<void> {
       const { username, email, password, avatarColor, avatarImage } = req.body;
-      // const checkIfUserExist: IAuthDocument = await authService.getUserByUsernameOrEmail(username, email);
-      // if (checkIfUserExist) {
-      //    throw new BadRequestError('Invalid credentials');
-      // }
+      const checkIfUserExist: IAuthDocument = await authService.getUserByUserNameOrEmail(username, email);
+      if (checkIfUserExist) {
+         throw new BadRequestError('Invalid credentials');
+      }
 
       const authObjectId: ObjectId = new ObjectId();
       const userObjectId: ObjectId = new ObjectId();
       const uId = `${Helpers.generateRandomIntegers(12)}`;
+
       // the reason we are using SignUp.prototype.signupData and not this.signupData is because
       // of how we invoke the create method in the routes method.
       // the scope of this object is not kept when the method is invoked
@@ -48,7 +49,7 @@ export class SignUp {
 
       // Add to redis cache
       const userDataForCache: IUserDocument = SignUp.prototype.userData(authData, userObjectId);
-      userDataForCache.profilePicture = `https://res.cloudinary.com/dyamr9ym3/image/upload/v${result.version}/${userObjectId}`;
+      userDataForCache.profilePicture = `https://res.cloudinary.com/dy0kgzezf/image/upload/v${result.version}/${userObjectId}`;
       await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
 
       // Add to database
@@ -117,7 +118,7 @@ export class SignUp {
          social: {
             facebook: '',
             instagram: '',
-            twitter: '',
+            x: '',
             youtube: ''
          }
       } as unknown as IUserDocument;

@@ -97,7 +97,7 @@ export class UserCache extends BaseCache {
       await this.client.HSET(`users:${key}`, dataToSave)
     } catch (error) {
       log.error(error)
-      throw new ServerError('Server Error. Try again')
+      throw new ServerError('REDIS Server Error. Try again')
     }
   }
 }

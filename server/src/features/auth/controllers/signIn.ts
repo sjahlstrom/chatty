@@ -26,7 +26,7 @@ export class SignIn {
       throw new BadRequestError('Invalid credentials')
     }
 
-    const user: IUserDocument = await userService.getUserAuthById(
+    const user: IUserDocument = await userService.getUserByAuthId(
       `${existingUser._id}`
     )
 

@@ -30,6 +30,9 @@ Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
+###
 
-
-
+GET http://localhost:5050/api/v1/currentuser
+Content-Type: application/json
+Accept: application/json
+withCredentials: true

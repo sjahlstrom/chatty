@@ -3,6 +3,7 @@ import { IUserDocument } from '@user/interfaces/user.interface'
 import Logger from 'bunyan'
 import { config } from '@root/config'
 import { ServerError } from '@global/helpers/error-handler'
+import { Helpers } from '@global/helpers/helpers'
 
 const log: Logger = config.createLogger('redisConnection')
 
@@ -95,6 +96,30 @@ export class UserCache extends BaseCache {
         value: `${key}`,
       })
       await this.client.HSET(`users:${key}`, dataToSave)
+    } catch (error) {
+      log.error(error)
+      throw new ServerError('REDIS Server Error. Try again')
+    }
+  }
+
+  public async getUserFromCache(userId: string): Promise<IUserDocument | null> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect()
+      }
+      const response: IUserDocument = (await this.client.HGETALL(
+        `users:${userId}`
+      )) as unknown as IUserDocument
+      response.createdAt = new Date(Helpers.parseJson(`${response.createdAt}`))
+      response.postsCount = Helpers.parseJson(`${response.postsCount}`)
+      response.blocked = Helpers.parseJson(`${response.blocked}`)
+      response.blockedBy = Helpers.parseJson(`${response.blockedBy}`)
+      response.notifications = Helpers.parseJson(`${response.notifications}`)
+      response.social = Helpers.parseJson(`${response.social}`)
+      response.followersCount = Helpers.parseJson(`${response.followersCount}`)
+      response.followingCount = Helpers.parseJson(`${response.followingCount}`)
+
+      return response
     } catch (error) {
       log.error(error)
       throw new ServerError('REDIS Server Error. Try again')

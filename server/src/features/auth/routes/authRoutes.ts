@@ -1,7 +1,7 @@
 import express, { Router } from 'express'
 import { SignUp } from '@auth/controllers/signUp'
-import {SignIn} from "@auth/controllers/signIn";
-import {SignOut} from "@auth/controllers/signOut";
+import {SignIn} from '@auth/controllers/signIn';
+import {SignOut} from '@auth/controllers/signOut';
 
 class AuthRoutes {
   private router: Router

@@ -14,7 +14,7 @@ import { authQueue } from '@service/queues/auth.queue'
 import { userQueue } from '@service/queues/user.queue'
 import { config } from '@root/config'
 import { BadRequestError } from '@global/helpers/error-handler'
-import {authService} from "@service/db/auth.service";
+import {authService} from '@service/db/auth.service';
 
 const userCache: UserCache = new UserCache()
 
